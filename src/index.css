@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* New Light Theme Palette */
+    --color-bg: #F5F5F4;
+    --color-card: #E7E7E5;
+    --color-text: #202321;
+    --color-muted: #737873;
+    --color-accent-dark: #3F6F52;
+    --color-accent-light: #7FAF8D;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-[var(--color-bg)] text-[var(--color-text)] antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-light);
+    color: white;
+  }
+
+  /* Better touch targets on mobile */
+  @media (max-width: 640px) {
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-accent-dark)] via-[var(--color-accent-light)] to-[var(--color-accent-dark)];
+    background-size: 200% auto;
+    animation: textShine 4s linear infinite;
+  }
+
+  @keyframes textShine {
+    to {
+      background-position: -200% center;
+    }
+  }
+
+  .hero-text-gradient {
+    background: linear-gradient(90deg, #737873, #202321, #737873, #202321, #737873);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: heroTextShine 6s linear infinite;
+  }
+
+  @keyframes heroTextShine {
+    0% {
+      background-position: 0% center;
+    }
+    100% {
+      background-position: -300% center;
+    }
+  }
+
+  /* Animated Mesh Gradient Background for Hero */
+  .hero-gradient-bg {
+    background: linear-gradient(
+      -45deg,
+      #F5F5F4,
+      #E7E7E5,
+      #d4e6d9,
+      #F5F5F4,
+      #e0ede3,
+      #E7E7E5
+    );
+    background-size: 400% 400%;
+    animation: heroGradientMove 12s ease infinite;
+  }
+
+  @keyframes heroGradientMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    25% {
+      background-position: 100% 25%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    75% {
+      background-position: 0% 75%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* 3D Animation Utilities */
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}
+
+@layer components {
+  /* Minimal Light Cards */
+  .minimal-card {
+    @apply bg-[var(--color-card)] border rounded-2xl shadow-sm transition-all duration-500;
+    border-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .minimal-card:hover {
+    @apply shadow-xl;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Custom Scrollbar for Light Theme */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-[var(--color-bg)];
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  /* Lenis smooth scroll */
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+}
