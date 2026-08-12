@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github, X } from 'lucide-react';
 import MagneticButton from '../components/MagneticButton';
+import ScrollStack, { ScrollStackItem } from '../components/ScrollStack';
 
 function ProjectCard({ project, index, onClick, className }) {
   const cardRef = useRef(null);
@@ -216,17 +217,17 @@ export default function Projects({ projects }) {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <ScrollStack useWindowScroll={true}>
           {projects.map((project, index) => (
-            <ProjectCard 
-              key={project.id || project.title} 
-              project={project} 
-              index={index} 
-              onClick={setSelectedProject}
-              className={index === 3 ? "lg:col-start-2" : ""}
-            />
+            <ScrollStackItem key={project.id || project.title}>
+              <ProjectCard 
+                project={project} 
+                index={index} 
+                onClick={setSelectedProject}
+              />
+            </ScrollStackItem>
           ))}
-        </div>
+        </ScrollStack>
       </div>
 
       <ProjectModal 
