@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import devCardImg from '../../assets/images/dev_card.png';
+import Cubes from '../components/Cubes';
 
 export default function About({ personalInfo }) {
   const containerRef = useRef(null);
@@ -49,6 +50,24 @@ export default function About({ personalInfo }) {
                 <p>
                   I specialize in modern JavaScript/TypeScript ecosystems, building responsive frontends with React and highly scalable backend architectures. I'm obsessed with performance, clean code, and creating intuitive user experiences.
                 </p>
+              </div>
+
+              {/* Desktop-only ambient Cubes strip (8 cols x 3 rows) */}
+              <div className="hidden lg:block w-full max-w-[360px] aspect-[8/3] mt-8 relative">
+                <Cubes 
+                  gridCols={8}
+                  gridRows={3}
+                  maxAngle={30}
+                  radius={2.5}
+                  cellGap={12}
+                  borderStyle="1.5px dashed #3F6F52"
+                  faceColor="#FFFFFF"
+                  rippleColor="#7FAF8D"
+                  rippleSpeed={1.5}
+                  autoAnimate={true}
+                  rippleOnClick={true}
+                  shadow="0 2px 8px rgba(0,0,0,0.05)"
+                />
               </div>
             </motion.div>
           </div>

@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Send, Github, Linkedin, Mail, MapPin, Phone, CheckCircle } from 'lucide-react';
 import MagneticButton from '../components/MagneticButton';
+import Cubes from '../components/Cubes';
 import emailjs from '@emailjs/browser';
 
 const getEnvVar = (val) => (val || '').replace(/['";]/g, '').trim();
@@ -144,6 +145,23 @@ export default function Contact({ personalInfo }) {
                   </MagneticButton>
                 ))}
               </div>
+            </div>
+
+            {/* Desktop-only ambient Cubes grid (7 cols x 4 rows) */}
+            <div className="hidden lg:block mt-8 w-full max-w-[320px] aspect-[7/4] relative opacity-85 hover:opacity-100 transition-opacity">
+              <Cubes 
+                gridCols={7}
+                gridRows={4}
+                maxAngle={35}
+                radius={2.5}
+                cellGap={14}
+                borderStyle="1.5px dashed #3F6F52"
+                faceColor="#FFFFFF"
+                rippleColor="#7FAF8D"
+                rippleSpeed={1.5}
+                autoAnimate={true}
+                rippleOnClick={true}
+              />
             </div>
           </div>
 

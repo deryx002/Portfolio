@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import Cubes from '../components/Cubes';
 
 function ExperienceCard({ exp, index }) {
   return (
@@ -67,16 +68,36 @@ export default function Experience({ experiences }) {
       className="py-24 px-4 sm:px-8 relative bg-[var(--color-bg)]"
     >
       <div className="max-w-5xl mx-auto">
-        <motion.div style={{ y: y1 }} className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-[2px] bg-[var(--color-accent-dark)]" />
-            <span className="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--color-accent-dark)]">
-              04 / Journey
-            </span>
+        <motion.div style={{ y: y1 }} className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-[2px] bg-[var(--color-accent-dark)]" />
+              <span className="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--color-accent-dark)]">
+                04 / Journey
+              </span>
+            </div>
+            <h2 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-[var(--color-text)] tracking-tight">
+              WORK <span className="text-gradient">EXPERIENCE.</span>
+            </h2>
           </div>
-          <h2 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-[var(--color-text)] tracking-tight">
-            WORK <span className="text-gradient">EXPERIENCE.</span>
-          </h2>
+
+          {/* Desktop-only accent Cubes strip (8 cols x 2 rows) */}
+          <div className="hidden md:block w-full max-w-[280px] aspect-[8/2] relative">
+            <Cubes 
+              gridCols={8}
+              gridRows={2}
+              maxAngle={30}
+              radius={2}
+              cellGap={10}
+              borderStyle="1.5px dashed #3F6F52"
+              faceColor="#FFFFFF"
+              rippleColor="#7FAF8D"
+              rippleSpeed={1.5}
+              autoAnimate={true}
+              rippleOnClick={true}
+              shadow="0 2px 8px rgba(0,0,0,0.05)"
+            />
+          </div>
         </motion.div>
 
         <div className="relative">

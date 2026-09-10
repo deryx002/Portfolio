@@ -4,6 +4,9 @@ import './Cubes.css';
 
 const Cubes = ({
   gridSize = 10,
+  gridCols,
+  gridRows,
+  extraRows = 0,
   cubeSize,
   maxAngle = 45,
   radius = 3,
@@ -25,6 +28,9 @@ const Cubes = ({
   const simPosRef = useRef({ x: 0, y: 0 });
   const simTargetRef = useRef({ x: 0, y: 0 });
   const simRAFRef = useRef(null);
+
+  const numCols = gridCols || (typeof gridSize === 'number' ? gridSize : 6);
+  const numRows = gridRows || (typeof gridSize === 'number' ? gridSize + (extraRows || 0) : numCols);
 
   const colGap = typeof cellGap === 'number' ? `${cellGap}px` : cellGap?.col !== undefined ? `${cellGap.col}px` : '5%';
   const rowGap = typeof cellGap === 'number' ? `${cellGap}px` : cellGap?.row !== undefined ? `${cellGap.row}px` : '5%';
@@ -69,8 +75,8 @@ const Cubes = ({
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
 
       const rect = sceneRef.current.getBoundingClientRect();
-      const cellW = rect.width / gridSize;
-      const cellH = rect.height / gridSize;
+      const cellW = rect.width / numCols;
+      const cellH = rect.height / numRows;
       const colCenter = (e.clientX - rect.left) / cellW;
       const rowCenter = (e.clientY - rect.top) / cellH;
 
@@ -81,7 +87,7 @@ const Cubes = ({
         userActiveRef.current = false;
       }, 3000);
     },
-    [gridSize, tiltAt]
+    [numCols, numRows, tiltAt]
   );
 
   const resetAll = useCallback(() => {
@@ -103,8 +109,8 @@ const Cubes = ({
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
 
       const rect = sceneRef.current.getBoundingClientRect();
-      const cellW = rect.width / gridSize;
-      const cellH = rect.height / gridSize;
+      const cellW = rect.width / numCols;
+      const cellH = rect.height / numRows;
 
       const touch = e.touches[0];
       const colCenter = (touch.clientX - rect.left) / cellW;
@@ -117,7 +123,7 @@ const Cubes = ({
         userActiveRef.current = false;
       }, 3000);
     },
-    [gridSize, tiltAt]
+    [numCols, numRows, tiltAt]
   );
 
   const onTouchStart = useCallback(() => {
@@ -133,8 +139,8 @@ const Cubes = ({
     e => {
       if (!rippleOnClick || !sceneRef.current) return;
       const rect = sceneRef.current.getBoundingClientRect();
-      const cellW = rect.width / gridSize;
-      const cellH = rect.height / gridSize;
+      const cellW = rect.width / numCols;
+      const cellH = rect.height / numRows;
 
       const clientX = e.clientX || (e.touches && e.touches[0].clientX);
       const clientY = e.clientY || (e.touches && e.touches[0].clientY);
@@ -181,18 +187,18 @@ const Cubes = ({
           });
         });
     },
-    [rippleOnClick, gridSize, faceColor, rippleColor, rippleSpeed]
+    [rippleOnClick, numCols, numRows, faceColor, rippleColor, rippleSpeed]
   );
 
   useEffect(() => {
     if (!autoAnimate || !sceneRef.current) return;
     simPosRef.current = {
-      x: Math.random() * gridSize,
-      y: Math.random() * gridSize
+      x: Math.random() * numCols,
+      y: Math.random() * numRows
     };
     simTargetRef.current = {
-      x: Math.random() * gridSize,
-      y: Math.random() * gridSize
+      x: Math.random() * numCols,
+      y: Math.random() * numRows
     };
     const speed = 0.02;
     const loop = () => {
@@ -204,8 +210,8 @@ const Cubes = ({
         tiltAt(pos.y, pos.x);
         if (Math.hypot(pos.x - tgt.x, pos.y - tgt.y) < 0.1) {
           simTargetRef.current = {
-            x: Math.random() * gridSize,
-            y: Math.random() * gridSize
+            x: Math.random() * numCols,
+            y: Math.random() * numRows
           };
         }
       }
@@ -217,7 +223,7 @@ const Cubes = ({
         cancelAnimationFrame(simRAFRef.current);
       }
     };
-  }, [autoAnimate, gridSize, tiltAt]);
+  }, [autoAnimate, numCols, numRows, tiltAt]);
 
   useEffect(() => {
     const el = sceneRef.current;
@@ -245,10 +251,11 @@ const Cubes = ({
     };
   }, [onPointerMove, resetAll, onClick, onTouchMove, onTouchStart, onTouchEnd]);
 
-  const cells = Array.from({ length: gridSize });
+  const rowCells = Array.from({ length: numRows });
+  const colCells = Array.from({ length: numCols });
   const sceneStyle = {
-    gridTemplateColumns: cubeSize ? `repeat(${gridSize}, ${cubeSize}px)` : `repeat(${gridSize}, 1fr)`,
-    gridTemplateRows: cubeSize ? `repeat(${gridSize}, ${cubeSize}px)` : `repeat(${gridSize}, 1fr)`,
+    gridTemplateColumns: cubeSize ? `repeat(${numCols}, ${cubeSize}px)` : `repeat(${numCols}, 1fr)`,
+    gridTemplateRows: cubeSize ? `repeat(${numRows}, ${cubeSize}px)` : `repeat(${numRows}, 1fr)`,
     columnGap: colGap,
     rowGap: rowGap
   };
@@ -258,8 +265,8 @@ const Cubes = ({
     '--cube-face-shadow': shadow === true ? '0 0 6px rgba(0,0,0,.5)' : shadow || 'none',
     ...(cubeSize
       ? {
-          width: `${gridSize * cubeSize}px`,
-          height: `${gridSize * cubeSize}px`
+          width: `${numCols * cubeSize}px`,
+          height: `${numRows * cubeSize}px`
         }
       : {})
   };
@@ -267,8 +274,8 @@ const Cubes = ({
   return (
     <div className="default-animation" style={wrapperStyle}>
       <div ref={sceneRef} className="default-animation--scene" style={sceneStyle}>
-        {cells.map((_, r) =>
-          cells.map((__, c) => (
+        {rowCells.map((_, r) =>
+          colCells.map((__, c) => (
             <div key={`${r}-${c}`} className="cube" data-row={r} data-col={c}>
               <div className="cube-face cube-face--top" />
               <div className="cube-face cube-face--bottom" />

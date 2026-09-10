@@ -9,8 +9,7 @@
 .default-animation {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  height: auto;
+  height: 100%;
 }
 
 .default-animation--scene {
@@ -19,7 +18,7 @@
   height: 100%;
   column-gap: var(--col-gap);
   row-gap: var(--row-gap);
-  perspective: var(--cube-perspective);
+  perspective: 1000px;
   grid-auto-rows: 1fr;
 }
 
@@ -29,15 +28,16 @@
   height: 100%;
   aspect-ratio: 1 / 1;
   transform-style: preserve-3d;
+  container-type: inline-size;
 }
 
 .cube::before {
   content: '';
   position: absolute;
-  top: -12px;
-  right: -12px;
-  bottom: -12px;
-  left: -12px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .default-animation .cube-face {
@@ -53,25 +53,28 @@
   backface-visibility: hidden;
 }
 
+.default-animation .cube-face--front {
+  transform: translateZ(50cqw);
+}
+
+.default-animation .cube-face--back {
+  transform: rotateY(180deg) translateZ(50cqw);
+}
+
 .default-animation .cube-face--top {
-  transform: translateY(-50%) rotateX(90deg);
+  transform: rotateX(90deg) translateZ(50cqw);
 }
 
 .default-animation .cube-face--bottom {
-  transform: translateY(50%) rotateX(-90deg);
+  transform: rotateX(-90deg) translateZ(50cqw);
 }
 
 .default-animation .cube-face--left {
-  transform: translateX(-50%) rotateY(-90deg);
+  transform: rotateY(-90deg) translateZ(50cqw);
 }
 
 .default-animation .cube-face--right {
-  transform: translateX(50%) rotateY(90deg);
-}
-
-.default-animation .cube-face--back,
-.default-animation .cube-face--front {
-  transform: rotateY(-90deg) translateX(50%) rotateY(90deg);
+  transform: rotateY(90deg) translateZ(50cqw);
 }
 
 @media (max-width: 768px) {

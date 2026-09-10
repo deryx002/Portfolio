@@ -183,17 +183,20 @@ export default function Skills({ skills }) {
               </p>
 
               {/* Interactive 3D Cubes - Visible only on PC/Desktop (md screens and up) */}
-              <div className="hidden md:block w-full max-w-[280px] aspect-square mx-auto lg:mx-0 relative rounded-2xl overflow-hidden p-2 bg-[var(--color-card)]/50 border border-black/5 shadow-inner">
+              <div className="hidden md:block w-full max-w-[270px] aspect-[6/9] ml-8 lg:ml-16 mt-6 relative">
                 <Cubes 
-                  gridSize={7}
-                  maxAngle={45}
+                  gridSize={6}
+                  extraRows={3}
+                  maxAngle={35}
                   radius={2.5}
-                  borderStyle="1px solid rgba(63, 111, 82, 0.3)"
-                  faceColor="#18221c"
+                  cellGap={14}
+                  borderStyle="1.5px dashed #3F6F52"
+                  faceColor="#FFFFFF"
                   rippleColor="#7FAF8D"
                   rippleSpeed={1.5}
                   autoAnimate={true}
                   rippleOnClick={true}
+                  shadow="0 2px 10px rgba(0, 0, 0, 0.05)"
                 />
               </div>
             </motion.div>
