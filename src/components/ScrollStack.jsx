@@ -88,6 +88,8 @@ const ScrollStack = ({
 
   const updateCardTransforms = useCallback(() => {
     if (!cardsRef.current.length || isUpdatingRef.current) return;
+    // On mobile (< 768px), let native CSS sticky handle card layout on the compositor thread with 0ms lag/jitter
+    if (typeof window !== 'undefined' && window.innerWidth < 768) return;
 
     isUpdatingRef.current = true;
 
