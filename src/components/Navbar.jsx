@@ -26,18 +26,18 @@ export default function Navbar({ personalInfo }) {
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        isScrolled ? 'py-4' : 'py-6'
+        isScrolled ? 'py-2 sm:py-4' : 'py-3 sm:py-6'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-8">
         <div 
           className={`flex items-center justify-between rounded-full transition-all duration-500 ${
             isScrolled 
-              ? 'bg-[var(--color-bg)]/80 backdrop-blur-md shadow-lg shadow-black/5 border border-black/5 px-6 py-3' 
+              ? 'bg-[var(--color-bg)]/80 backdrop-blur-md shadow-lg shadow-black/5 border border-black/5 px-4 py-2 sm:px-6 sm:py-3' 
               : 'bg-transparent px-2'
           }`}
         >
-          <a href="#home" className="font-heading font-black text-xl tracking-widest text-[var(--color-text)]">
+          <a href="#home" className="font-heading font-black text-lg sm:text-xl tracking-widest text-[var(--color-text)]">
             DHARUN<span className="text-[var(--color-accent-dark)]">.</span>
           </a>
 
@@ -68,10 +68,10 @@ export default function Navbar({ personalInfo }) {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden text-[var(--color-text)] p-2 -mr-2"
+            className="md:hidden text-[var(--color-text)] p-1.5 sm:p-2 -mr-1 sm:-mr-2"
             onClick={() => setIsMobileMenuOpen(true)}
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
       </div>

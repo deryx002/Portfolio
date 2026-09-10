@@ -46,7 +46,7 @@ export default function Hero({ personalInfo }) {
   const yImage = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  const typingRoles = ["DEVELOPER.", "ENGINEER.", "DESIGNER.", "CREATOR.", "INNOVATOR." , "PRACTITIONER." , "ARCHIETECT."];
+  const typingRoles = ["DEVELOPER.", "ENGINEER.", "DESIGNER.", "CREATOR.", "INNOVATOR." , "PRACTITIONER." , "ARCHITECT."];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -119,14 +119,14 @@ export default function Hero({ personalInfo }) {
             </span>
           </motion.div>
 
-          <div className="font-heading font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] leading-[0.9] tracking-tighter mb-8 uppercase w-full flex flex-col items-center lg:items-start min-h-[3em] lg:min-h-[2.8em] gap-2 lg:gap-0">
+          <div className="font-heading font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] leading-[0.9] tracking-tighter mb-8 uppercase w-full flex flex-col items-center lg:items-start min-h-[3.2em] sm:min-h-[3em] lg:min-h-[2.8em] gap-2 lg:gap-0">
             <span>
               <TypewriterText text="Full" delayOffset={0.2} />
             </span>
             <span>
               <TypewriterText text="Stack" delayOffset={0.5} />
             </span>
-            <div className="h-[0.9em] relative">
+            <div className="h-14 sm:h-[1.1em] lg:h-[0.9em] w-full flex justify-center lg:justify-start relative">
               <StrokeText
                 key={roleIndex}
                 text={typingRoles[roleIndex]}
@@ -141,7 +141,7 @@ export default function Hero({ personalInfo }) {
                 fillMode="wipe"
                 fontSize={128}
                 fontWeight={900}
-                letterSpacing={-4}
+                letterSpacing={0}
               />
             </div>
           </div>

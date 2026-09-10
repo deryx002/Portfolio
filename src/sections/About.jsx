@@ -1,9 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import devCardImg from '../../assets/images/dev_card.png';
 
 export default function About({ personalInfo }) {
   const containerRef = useRef(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -23,7 +31,7 @@ export default function About({ personalInfo }) {
         <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 lg:gap-24 items-center">
           
           <div className="w-full lg:w-1/2">
-            <motion.div style={{ y: y1 }}>
+            <motion.div style={isDesktop ? { y: y1 } : {}}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-[2px] bg-[var(--color-accent-dark)]" />
                 <span className="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--color-accent-dark)]">
@@ -47,7 +55,7 @@ export default function About({ personalInfo }) {
 
           <div className="w-full lg:w-1/2 relative perspective-1000">
             <motion.div 
-              style={{ y: y2 }}
+              style={isDesktop ? { y: y2 } : {}}
               className="relative w-full aspect-[4/3] sm:aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl shadow-black/10 preserve-3d"
             >
               {/* Image Container with 3D Tilt effect */}

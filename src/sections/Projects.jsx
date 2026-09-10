@@ -96,12 +96,15 @@ function ProjectModal({ project, onClose }) {
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
           className="minimal-card relative w-full max-w-4xl max-h-[85vh] overflow-y-auto flex flex-col z-10"
         >
-          <button 
-            onClick={onClose}
-            className="absolute top-3 right-3 sm:top-4 sm:right-4 z-50 p-2 bg-[var(--color-bg)] text-[var(--color-text)] rounded-full hover:bg-[var(--color-accent-light)] hover:text-white transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="sticky top-3 sm:top-4 right-3 sm:right-4 z-50 flex justify-end px-3 sm:px-4 pt-3 sm:pt-4 pointer-events-none -mb-12 sm:-mb-14">
+            <button 
+              onClick={onClose}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-[var(--color-bg)]/90 backdrop-blur-md border border-black/10 text-[var(--color-text)] hover:bg-[var(--color-accent-light)] hover:text-white transition-all shadow-lg pointer-events-auto shrink-0 aspect-square"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
           <div className="h-64 sm:h-80 w-full relative bg-[var(--color-bg)] flex-shrink-0">
             {project.image ? (

@@ -120,7 +120,7 @@ export const education = {
   degree: "Bachelor of Engineering in Computer Science & Engineering",
   institution: "Sri Ramakrishna Institute of Technology, Coimbatore",
   period: "Aug 2023 – Present",
-  cgpa: "7.863 / 10",
+  cgpa: "8.036 / 10",
   highlights: [
     "Solid grounding in Data Structures, Algorithms, Software Engineering, and Database Management Systems.",
     "Active participant in technical workshops, hackathons, and collaborative software projects."
@@ -160,7 +160,7 @@ export const certificates = [
   },
   {
     title: "Collaborative Robotics",
-    issuer: "SRIT Workshop",
+    issuer: "KPRIT Workshop",
     category: "Robotics & Automation",
     icon: "Bot"
   }

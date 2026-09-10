@@ -12,6 +12,14 @@
   will-change: scroll-position;
 }
 
+.scroll-stack-scroller.use-window-scroll {
+  overflow-y: visible;
+  height: auto;
+  overscroll-behavior: auto;
+  will-change: auto;
+  touch-action: pan-y;
+}
+
 .scroll-stack-inner {
   padding: 0;
   min-height: 100vh;
