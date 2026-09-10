@@ -7,32 +7,47 @@ export default function Preloader({ onComplete }) {
   const rightPanelRef = useRef(null);
   const textRef = useRef(null);
   const preloaderRef = useRef(null);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   useEffect(() => {
     const obj = { value: 0 };
+    let hasCompleted = false;
+
+    const finish = () => {
+      if (hasCompleted) return;
+      hasCompleted = true;
+      if (onCompleteRef.current) onCompleteRef.current();
+      if (preloaderRef.current) {
+        preloaderRef.current.style.display = "none";
+      }
+    };
 
     const tl = gsap.timeline({
       onComplete: () => {
         // Curtain Split Reveal Animation
         gsap.timeline({
           onComplete: () => {
-            if (onComplete) onComplete();
+            finish();
           }
         })
         .to(textRef.current, {
           opacity: 0,
           scale: 0.8,
-          duration: 0.5,
+          duration: 0.4,
           ease: "power3.in"
         })
         .to(leftPanelRef.current, {
           xPercent: -100,
-          duration: 0.9,
+          duration: 0.7,
           ease: "expo.inOut"
-        }, "-=0.2")
+        }, "-=0.1")
         .to(rightPanelRef.current, {
           xPercent: 100,
-          duration: 0.9,
+          duration: 0.7,
           ease: "expo.inOut"
         }, "<")
         .to(preloaderRef.current, {
@@ -44,17 +59,21 @@ export default function Preloader({ onComplete }) {
 
     tl.to(obj, {
       value: 100,
-      duration: 1.8,
+      duration: 1.5,
       ease: "power2.inOut",
       onUpdate: () => {
         setCounter(Math.floor(obj.value));
       }
     });
 
+    // Safety fallback: guarantee reveal after 2.5 seconds regardless of animation delays
+    const fallbackTimer = setTimeout(finish, 2500);
+
     return () => {
+      clearTimeout(fallbackTimer);
       tl.kill();
     };
-  }, [onComplete]);
+  }, []);
 
   return (
     <div ref={preloaderRef} className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[var(--color-bg)]">

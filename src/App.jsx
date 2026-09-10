@@ -27,13 +27,16 @@ import {
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const handlePreloaderComplete = React.useCallback(() => {
+    setIsLoaded(true);
+  }, []);
 
   return (
     <div className="relative min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
       {/* Cursor-following green gradient glow */}
       <CursorGlow />
       {/* Light Mode Preloader */}
-      <Preloader onComplete={() => setIsLoaded(true)} />
+      <Preloader onComplete={handlePreloaderComplete} />
 
       {/* Smooth Scroll Container powered by Lenis + GSAP */}
       <SmoothScroll>
