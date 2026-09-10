@@ -1,9 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { 
   Code2, Terminal, FileCode, Atom, Server, 
   Layout, Database, DatabaseZap, GitBranch, BarChart3 
 } from 'lucide-react';
+import BorderGlow from '../components/BorderGlow';
+import LogoLoop from '../components/LogoLoop';
 
 const iconMap = {
   Code2, Terminal, FileCode, Atom, Server,
@@ -45,7 +47,7 @@ function SkillCard({ skill, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="perspective-1000 relative"
+      className="perspective-1000 relative h-full"
     >
       <motion.div
         animate={{ y: [0, -5, 0] }}
@@ -67,28 +69,42 @@ function SkillCard({ skill, index }) {
           }}
           whileHover={{ scale: 1.05, zIndex: 10 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="minimal-card relative group flex items-center gap-4 p-4 cursor-default"
+          className="w-full h-full"
         >
-          <div 
-            className="w-12 h-12 flex-shrink-0 rounded-xl flex items-center justify-center shadow-sm border border-black/5"
-            style={{ backgroundColor: skill.color + '15', transform: "translateZ(30px)" }}
+          <BorderGlow
+            edgeSensitivity={50}
+            glowColor="145 100 20"
+            backgroundColor="var(--color-card)"
+            borderRadius={24}
+            glowRadius={40}
+            glowIntensity={1.5}
+            className="w-full h-full"
+            animated={false}
+            colors={['#064e3b', '#065f46', '#047857']}
           >
-            <IconComponent className="w-6 h-6" style={{ color: skill.color }} />
-          </div>
-          
-          <div style={{ transform: "translateZ(20px)" }} className="flex-1">
-            <h3 className="font-heading font-bold text-[var(--color-text)] mb-1 text-sm">{skill.name}</h3>
-            <div className="w-full h-1.5 bg-black/5 rounded-full overflow-hidden">
-              <motion.div 
-                initial={{ width: 0 }}
-                whileInView={{ width: `${skill.level}%` }}
-                viewport={{ once: true }}
-                transition={{ duration: 1, delay: 0.2 + index * 0.05 }}
-                className="h-full rounded-full"
-                style={{ backgroundColor: skill.color }}
-              />
+            <div className="relative group flex items-center gap-4 p-4 cursor-default w-full h-full">
+              <div 
+                className="w-12 h-12 flex-shrink-0 rounded-xl flex items-center justify-center shadow-sm border border-black/5"
+                style={{ backgroundColor: skill.color + '15', transform: "translateZ(30px)" }}
+              >
+                <IconComponent className="w-6 h-6" style={{ color: skill.color }} />
+              </div>
+              
+              <div style={{ transform: "translateZ(20px)" }} className="flex-1">
+                <h3 className="font-heading font-bold text-[var(--color-text)] mb-1 text-sm">{skill.name}</h3>
+                <div className="w-full h-1.5 bg-black/10 rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${skill.level}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, delay: 0.2 + index * 0.05 }}
+                    className="h-full rounded-full"
+                    style={{ backgroundColor: skill.color }}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          </BorderGlow>
         </motion.div>
       </motion.div>
     </motion.div>
@@ -113,6 +129,17 @@ export default function Skills({ skills }) {
     return acc;
   }, {});
 
+  const techLogos = useMemo(() => {
+    return skills.map(skill => {
+      const IconComponent = iconMap[skill.icon] || Code2;
+      return {
+        // Render in B/W / Muted color
+        node: <IconComponent className="w-6 h-6 text-[var(--color-muted)] opacity-70" />,
+        title: skill.name,
+      };
+    });
+  }, [skills]);
+
   return (
     <section 
       id="skills" 
@@ -130,9 +157,26 @@ export default function Skills({ skills }) {
                   02 / Arsenal
                 </span>
               </div>
-              <h2 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-[var(--color-text)] mb-6 tracking-tight">
+              <h2 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-[var(--color-text)] mb-3 tracking-tight">
                 TECH <span className="text-gradient">STACK.</span>
               </h2>
+
+              <div className="mb-8 w-full max-w-full overflow-hidden opacity-80">
+                <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
+                  <LogoLoop
+                    logos={techLogos}
+                    speed={60}
+                    direction="left"
+                    logoHeight={24}
+                    gap={32}
+                    hoverSpeed={0}
+                    scaleOnHover
+                    fadeOut
+                    fadeOutColor="var(--color-bg)"
+                  />
+                </div>
+              </div>
+
               <p className="text-[var(--color-muted)] leading-relaxed mb-8">
                 A robust toolkit for building modern full stack applications. I leverage these technologies to create scalable, performant, and accessible user experiences.
               </p>

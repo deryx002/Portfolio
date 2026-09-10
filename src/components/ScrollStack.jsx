@@ -136,30 +136,15 @@ const ScrollStack = ({
         translateY = pinEnd - cardTop + stackPositionPx + itemStackDistance * i;
       }
 
-      const newTransform = {
-        translateY: Math.round(translateY * 100) / 100,
-        scale: Math.round(scale * 1000) / 1000,
-        rotation: Math.round(rotation * 100) / 100,
-        blur: Math.round(blur * 100) / 100
-      };
+      const newTransform = { translateY, scale, rotation, blur };
 
-      const lastTransform = lastTransformsRef.current.get(i);
-      const hasChanged =
-        !lastTransform ||
-        Math.abs(lastTransform.translateY - newTransform.translateY) > 0.1 ||
-        Math.abs(lastTransform.scale - newTransform.scale) > 0.001 ||
-        Math.abs(lastTransform.rotation - newTransform.rotation) > 0.1 ||
-        Math.abs(lastTransform.blur - newTransform.blur) > 0.1;
+      const transform = `translate3d(0, ${translateY}px, 0) scale(${scale}) rotate(${rotation}deg)`;
+      const filter = blur > 0 ? `blur(${blur}px)` : '';
 
-      if (hasChanged) {
-        const transform = `translate3d(0, ${newTransform.translateY}px, 0) scale(${newTransform.scale}) rotate(${newTransform.rotation}deg)`;
-        const filter = newTransform.blur > 0 ? `blur(${newTransform.blur}px)` : '';
+      card.style.transform = transform;
+      card.style.filter = filter;
 
-        card.style.transform = transform;
-        card.style.filter = filter;
-
-        lastTransformsRef.current.set(i, newTransform);
-      }
+      lastTransformsRef.current.set(i, newTransform);
 
       if (i === cardsRef.current.length - 1) {
         const isInView = scrollTop >= pinStart && scrollTop <= pinEnd;

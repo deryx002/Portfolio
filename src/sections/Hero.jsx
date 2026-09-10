@@ -3,6 +3,7 @@ import { Github, Linkedin, Mail, ChevronDown } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import MagneticButton from '../components/MagneticButton';
 import heroBg from '../../assets/images/hero-bg.jpg';
+import StrokeText from '../components/StrokeText';
 
 // Typewriter Effect Component for Static Text
 const TypewriterText = ({ text, delayOffset = 0 }) => {
@@ -15,7 +16,7 @@ const TypewriterText = ({ text, delayOffset = 0 }) => {
         visible: { transition: { staggerChildren: 0.08, delayChildren: delayOffset } },
         hidden: {},
       }}
-      className="inline-block"
+      className="inline-block text-[var(--color-text)]"
     >
       {characters.map((char, index) => (
         <motion.span
@@ -32,54 +33,10 @@ const TypewriterText = ({ text, delayOffset = 0 }) => {
   );
 };
 
-// Looping Typewriter for Multiple Words
-const RotatingTypewriter = ({ words, delayOffset = 0 }) => {
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [currentText, setCurrentText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
-
-  // Initial delay before starting the loop
-  useEffect(() => {
-    const timer = setTimeout(() => setHasStarted(true), delayOffset * 1000);
-    return () => clearTimeout(timer);
-  }, [delayOffset]);
-
-  useEffect(() => {
-    if (!hasStarted) return;
-
-    const typingSpeed = 100;
-    const deletingSpeed = 50;
-    const pauseTime = 2500;
-
-    const currentWord = words[currentWordIndex];
-
-    const handleTyping = () => {
-      if (!isDeleting) {
-        if (currentText.length < currentWord.length) {
-          setCurrentText(currentWord.slice(0, currentText.length + 1));
-        } else {
-          setTimeout(() => setIsDeleting(true), pauseTime);
-        }
-      } else {
-        if (currentText.length > 0) {
-          setCurrentText(currentWord.slice(0, currentText.length - 1));
-        } else {
-          setIsDeleting(false);
-          setCurrentWordIndex((prev) => (prev + 1) % words.length);
-        }
-      }
-    };
-
-    const timer = setTimeout(handleTyping, isDeleting ? deletingSpeed : typingSpeed);
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, currentWordIndex, words, hasStarted]);
-
-  return <span>{currentText}</span>;
-};
-
 export default function Hero({ personalInfo }) {
   const containerRef = useRef(null);
+  const [roleIndex, setRoleIndex] = useState(0);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -89,7 +46,14 @@ export default function Hero({ personalInfo }) {
   const yImage = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  const typingRoles = ["DEVELOPER.", "ENGINEER.", "DESIGNER.", "CREATOR."];
+  const typingRoles = ["DEVELOPER.", "ENGINEER.", "DESIGNER.", "CREATOR.", "INNOVATOR." , "PRACTITIONER." , "ARCHIETECT."];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRoleIndex(prev => (prev + 1) % typingRoles.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [typingRoles.length]);
 
   return (
     <section 
@@ -155,30 +119,30 @@ export default function Hero({ personalInfo }) {
             </span>
           </motion.div>
 
-          <div className="font-heading font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] leading-[0.9] tracking-tighter mb-8 uppercase w-full flex flex-col items-center lg:items-start min-h-[3em] lg:min-h-[2.8em]">
-            <span className="hero-text-gradient">
+          <div className="font-heading font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] leading-[0.9] tracking-tighter mb-8 uppercase w-full flex flex-col items-center lg:items-start min-h-[3em] lg:min-h-[2.8em] gap-2 lg:gap-0">
+            <span>
               <TypewriterText text="Full" delayOffset={0.2} />
             </span>
-            <span className="hero-text-gradient">
+            <span>
               <TypewriterText text="Stack" delayOffset={0.5} />
             </span>
-            <div className="text-[var(--color-accent-dark)] flex items-center relative whitespace-nowrap overflow-hidden">
-              {/* Invisible spacer to prevent layout shift while typing */}
-              <span className="invisible select-none" aria-hidden="true">DEVELOPER.</span>
-              <motion.span 
-                className="invisible inline-block w-3 md:w-5 h-[0.8em] ml-2"
-                aria-hidden="true"
+            <div className="h-[0.9em] relative">
+              <StrokeText
+                key={roleIndex}
+                text={typingRoles[roleIndex]}
+                strokeColor="#3F6F52"
+                fillColor="#7FAF8D"
+                strokeWidth={2}
+                drawDuration={2.5}
+                fillDelay={0.5}
+                stagger={0.15}
+                ease="power2.out"
+                trigger="mount"
+                fillMode="wipe"
+                fontSize={128}
+                fontWeight={900}
+                letterSpacing={-4}
               />
-              
-              {/* Actual typing content absolutely positioned */}
-              <div className="absolute left-0 top-0 bottom-0 flex items-center w-full justify-center lg:justify-start">
-                <RotatingTypewriter words={typingRoles} delayOffset={0.9} />
-                <motion.span 
-                  animate={{ opacity: [1, 0, 1] }} 
-                  transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                  className="inline-block w-3 md:w-5 h-[0.8em] bg-[var(--color-accent-dark)] ml-2 translate-y-[0.05em]"
-                />
-              </div>
             </div>
           </div>
 

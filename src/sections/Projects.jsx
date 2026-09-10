@@ -20,7 +20,7 @@ function ProjectCard({ project, index, onClick, className }) {
         ref={cardRef}
         className="minimal-card overflow-hidden h-[300px] sm:h-[400px] flex flex-col relative"
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg)] via-transparent to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 pointer-events-none" />
 
         {project.type === "TEAM PROJECT" && (
           <div className="absolute top-4 right-4 z-30 bg-[var(--color-text)] text-[var(--color-bg)] text-[10px] font-mono font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg flex items-center gap-1.5 opacity-90">
@@ -36,7 +36,7 @@ function ProjectCard({ project, index, onClick, className }) {
             <img 
               src={project.image} 
               alt={project.title} 
-              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105"
+              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center font-heading font-black text-6xl text-black/5">
@@ -46,10 +46,10 @@ function ProjectCard({ project, index, onClick, className }) {
         </div>
 
         <div className="absolute bottom-0 left-0 w-full p-6 z-20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-          <h3 className="font-heading font-black text-2xl text-[var(--color-text)] mb-2 group-hover:text-[var(--color-accent-dark)] transition-colors">
+          <h3 className="font-heading font-black text-2xl text-white mb-2 group-hover:text-[var(--color-accent-light)] transition-colors drop-shadow-md">
             {project.title}
           </h3>
-          <p className="text-[var(--color-muted)] text-sm line-clamp-2 mb-4 font-medium">
+          <p className="text-gray-300 text-sm line-clamp-2 mb-4 font-medium drop-shadow">
             {project.description}
           </p>
           
