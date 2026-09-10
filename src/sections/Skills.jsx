@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import BorderGlow from '../components/BorderGlow';
 import LogoLoop from '../components/LogoLoop';
+import Cubes from '../components/Cubes';
 
 const iconMap = {
   Code2, Terminal, FileCode, Atom, Server,
@@ -180,6 +181,21 @@ export default function Skills({ skills }) {
               <p className="text-[var(--color-muted)] leading-relaxed mb-8">
                 A robust toolkit for building modern full stack applications. I leverage these technologies to create scalable, performant, and accessible user experiences.
               </p>
+
+              {/* Interactive 3D Cubes - Visible only on PC/Desktop (md screens and up) */}
+              <div className="hidden md:block w-full max-w-[280px] aspect-square mx-auto lg:mx-0 relative rounded-2xl overflow-hidden p-2 bg-[var(--color-card)]/50 border border-black/5 shadow-inner">
+                <Cubes 
+                  gridSize={7}
+                  maxAngle={45}
+                  radius={2.5}
+                  borderStyle="1px solid rgba(63, 111, 82, 0.3)"
+                  faceColor="#18221c"
+                  rippleColor="#7FAF8D"
+                  rippleSpeed={1.5}
+                  autoAnimate={true}
+                  rippleOnClick={true}
+                />
+              </div>
             </motion.div>
           </div>
 
