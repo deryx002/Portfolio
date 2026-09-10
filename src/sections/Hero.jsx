@@ -174,19 +174,28 @@ export default function Hero({ personalInfo }) {
               {[
                 { icon: Github, href: personalInfo.socials.github, label: "GitHub" },
                 { icon: Linkedin, href: personalInfo.socials.linkedin, label: "LinkedIn" },
-                { icon: Mail, href: personalInfo.socials.email, label: "Email" }
-              ].map((social) => (
-                <MagneticButton key={social.label}>
-                  <a
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-12 h-12 rounded-full flex items-center justify-center bg-[var(--color-card)] border border-black/5 text-[var(--color-text)] hover:text-[var(--color-accent-dark)] hover:border-[var(--color-accent-light)] transition-all shadow-sm hover:shadow-md"
-                  >
-                    <social.icon className="w-5 h-5" />
-                  </a>
-                </MagneticButton>
-              ))}
+                { 
+                  icon: Mail, 
+                  href: personalInfo.socials.email?.startsWith('mailto:') 
+                    ? personalInfo.socials.email 
+                    : `mailto:${personalInfo.socials.email}`, 
+                  label: "Email" 
+                }
+              ].map((social) => {
+                const isMail = social.href?.startsWith('mailto:');
+                return (
+                  <MagneticButton key={social.label}>
+                    <a
+                      href={social.href}
+                      target={isMail ? undefined : "_blank"}
+                      rel={isMail ? undefined : "noreferrer"}
+                      className="w-12 h-12 rounded-full flex items-center justify-center bg-[var(--color-card)] border border-black/5 text-[var(--color-text)] hover:text-[var(--color-accent-dark)] hover:border-[var(--color-accent-light)] transition-all shadow-sm hover:shadow-md"
+                    >
+                      <social.icon className="w-5 h-5" />
+                    </a>
+                  </MagneticButton>
+                );
+              })}
             </div>
           </motion.div>
         </motion.div>

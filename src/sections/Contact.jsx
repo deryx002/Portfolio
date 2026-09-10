@@ -4,10 +4,7 @@ import { Send, Github, Linkedin, Mail, MapPin, Phone, CheckCircle } from 'lucide
 import MagneticButton from '../components/MagneticButton';
 import emailjs from '@emailjs/browser';
 
-// ⚠️ Replace these with your actual EmailJS credentials
-const EMAILJS_SERVICE_ID = 'service_usb2srs';
-const EMAILJS_TEMPLATE_ID = 'template_9hmq93q';
-const EMAILJS_PUBLIC_KEY = 'R43Az4QTU2pP4NbQz';
+const getEnvVar = (val) => (val || '').replace(/['";]/g, '').trim();
 
 export default function Contact({ personalInfo }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -28,12 +25,33 @@ export default function Contact({ personalInfo }) {
     setIsSubmitting(true);
     setStatus(null);
 
+    const serviceId = getEnvVar(import.meta.env.VITE_EMAILJS_SERVICE_ID);
+    const templateId = getEnvVar(import.meta.env.VITE_EMAILJS_TEMPLATE_ID);
+    const publicKey = getEnvVar(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+
+    if (!serviceId || !templateId || !publicKey || publicKey === 'YOUR_EMAILJS_PUBLIC_KEY' || publicKey.startsWith('template_')) {
+      console.error('EmailJS Error: Missing or invalid environment variables. Check your .env file and ensure VITE_EMAILJS_PUBLIC_KEY is set to your actual EmailJS Public Key (not Template ID).');
+      setStatus('error');
+      setIsSubmitting(false);
+      setTimeout(() => setStatus(null), 5000);
+      return;
+    }
+
     try {
-      await emailjs.sendForm(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        EMAILJS_PUBLIC_KEY
+      const templateParams = {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        from_name: formData.name,
+        from_email: formData.email,
+        reply_to: formData.email,
+      };
+
+      await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        { publicKey }
       );
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
@@ -80,7 +98,12 @@ export default function Contact({ personalInfo }) {
 
             <div className="space-y-8">
               {[
-                { icon: Mail, label: "Email", value: personalInfo.socials.email, href: `${personalInfo.socials.email}` },
+                { 
+                  icon: Mail, 
+                  label: "Email", 
+                  value: personalInfo.email || personalInfo.socials.email.replace('mailto:', ''), 
+                  href: personalInfo.socials.email?.startsWith('mailto:') ? personalInfo.socials.email : `mailto:${personalInfo.socials.email}` 
+                },
                 { icon: Phone, label: "Phone", value: personalInfo.phone, href: `tel:${personalInfo.phone}` },
                 { icon: MapPin, label: "Location", value: personalInfo.location, href: null }
               ].map((item, idx) => (

@@ -18,7 +18,7 @@ export const personalInfo = {
   socials: {
     github: "https://github.com/deryx002",
     linkedin: "https://www.linkedin.com/in/dharunananths",
-    email: "dharunananth002@gmail.com",
+    email: "mailto:dharunananth002@gmail.com",
     instagram: "https://www.instagram.com/",
     resume: "assets/files/Dharun-Resume.pdf"
   }
