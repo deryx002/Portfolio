@@ -31,13 +31,13 @@ export default function Navbar({ personalInfo }) {
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-8">
         <div 
-          className={`flex items-center justify-between rounded-full transition-all duration-500 ${
+          className={`flex items-center justify-between rounded-full transition-all duration-500 min-h-[38px] sm:min-h-[48px] ${
             isScrolled 
-              ? 'bg-[var(--color-bg)]/80 backdrop-blur-md shadow-lg shadow-black/5 border border-black/5 px-4 py-2 sm:px-6 sm:py-3' 
-              : 'bg-transparent px-2'
+              ? 'bg-[var(--color-bg)]/85 backdrop-blur-md shadow-md border border-black/10 px-3.5 py-1.5 sm:px-6 sm:py-2.5' 
+              : 'bg-transparent px-2 py-1'
           }`}
         >
-          <a href="#home" className="font-heading font-black text-lg sm:text-xl tracking-widest text-[var(--color-text)]">
+          <a href="#home" className="font-heading font-black text-base sm:text-xl tracking-widest text-[var(--color-text)] flex items-center leading-none my-auto">
             DHARUN<span className="text-[var(--color-accent-dark)]">.</span>
           </a>
 
@@ -68,10 +68,11 @@ export default function Navbar({ personalInfo }) {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden text-[var(--color-text)] p-1.5 sm:p-2 -mr-1 sm:-mr-2"
+            className="md:hidden text-[var(--color-text)] p-1 sm:p-2 my-auto flex items-center justify-center rounded-full hover:bg-black/5 transition-colors"
             onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Open Menu"
           >
-            <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
+            <Menu className="w-4 h-4 sm:w-6 sm:h-6" />
           </button>
         </div>
       </div>

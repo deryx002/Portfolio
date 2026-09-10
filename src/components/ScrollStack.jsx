@@ -136,10 +136,15 @@ const ScrollStack = ({
         translateY = pinEnd - cardTop + stackPositionPx + itemStackDistance * i;
       }
 
-      const newTransform = { translateY, scale, rotation, blur };
+      // Round to prevent subpixel jitter on mobile screens
+      const roundedY = Math.round(translateY * 10) / 10;
+      const roundedScale = Math.round(scale * 1000) / 1000;
+      const roundedRotation = Math.round(rotation * 10) / 10;
 
-      const transform = `translate3d(0, ${translateY}px, 0) scale(${scale}) rotate(${rotation}deg)`;
-      const filter = blur > 0 ? `blur(${blur}px)` : '';
+      const newTransform = { translateY: roundedY, scale: roundedScale, rotation: roundedRotation, blur };
+
+      const transform = `translate3d(0, ${roundedY}px, 0) scale(${roundedScale}) rotate(${roundedRotation}deg)`;
+      const filter = (blur > 0 && window.innerWidth >= 768) ? `blur(${blur}px)` : '';
 
       card.style.transform = transform;
       card.style.filter = filter;
@@ -188,18 +193,28 @@ const ScrollStack = ({
 
   const setupLenis = useCallback(() => {
     if (useWindowScroll) {
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      // If we are using window scroll and there's a global Lenis, we just listen to window scroll.
-      // We still update on a rAF to ensure smooth sync with global Lenis or native scroll.
-      const raf = () => {
-        handleScroll();
-        animationFrameRef.current = requestAnimationFrame(raf);
+      let ticking = false;
+      const onScroll = () => {
+        if (!ticking) {
+          animationFrameRef.current = requestAnimationFrame(() => {
+            handleScroll();
+            ticking = false;
+          });
+          ticking = true;
+        }
       };
-      animationFrameRef.current = requestAnimationFrame(raf);
-      return null;
+      window.addEventListener('scroll', onScroll, { passive: true });
+      handleScroll();
+
+      return () => {
+        window.removeEventListener('scroll', onScroll);
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+        }
+      };
     } else {
       const scroller = scrollerRef.current;
-      if (!scroller) return;
+      if (!scroller) return () => {};
 
       const lenis = new Lenis({
         wrapper: scroller,
@@ -228,7 +243,12 @@ const ScrollStack = ({
       animationFrameRef.current = requestAnimationFrame(raf);
 
       lenisRef.current = lenis;
-      return lenis;
+      return () => {
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+        }
+        lenis.destroy();
+      };
     }
   }, [handleScroll, useWindowScroll]);
 
@@ -255,33 +275,27 @@ const ScrollStack = ({
       if (i < cards.length - 1) {
         card.style.marginBottom = `${itemDistance}px`;
       }
-      card.style.willChange = 'transform, filter';
+      card.style.willChange = 'transform';
       card.style.transformOrigin = 'top center';
       card.style.backfaceVisibility = 'hidden';
       card.style.transform = 'translateZ(0)';
       card.style.webkitTransform = 'translateZ(0)';
-      card.style.perspective = '1000px';
-      card.style.webkitPerspective = '1000px';
     });
     
-    // Initial calculation needs a tiny delay to ensure images/DOM are fully painted
-    setTimeout(() => {
+    calculateOffsets();
+    updateCardTransforms();
+
+    const cleanupLenis = setupLenis();
+
+    const resizeObserver = new ResizeObserver(() => {
       calculateOffsets();
       updateCardTransforms();
-    }, 100);
-
-    setupLenis();
+    });
+    resizeObserver.observe(scroller);
 
     return () => {
-      if (useWindowScroll) {
-        window.removeEventListener('scroll', handleScroll);
-      }
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      if (lenisRef.current) {
-        lenisRef.current.destroy();
-      }
+      cleanupLenis?.();
+      resizeObserver.disconnect();
       stackCompletedRef.current = false;
       cardsRef.current = [];
       wrappersRef.current = [];
