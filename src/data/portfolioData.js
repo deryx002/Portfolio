@@ -3,6 +3,23 @@ import busPro from '../assets/images/Project/bus_pro.png';
 import aiPro from '../assets/images/Project/ai_pro.png';
 import gstPro from '../assets/images/Project/gst_pro.png';
 
+// Dynamically discover any resume file uploaded into public/resume/ regardless of filename
+const getDynamicResumeUrl = () => {
+  try {
+    const resumeModules = import.meta.glob('/public/resume/*', { eager: true, query: '?url', import: 'default' });
+    const paths = Object.values(resumeModules);
+    if (paths.length > 0 && paths[0]) {
+      const firstPath = paths[0];
+      return typeof firstPath === 'string' ? firstPath.replace(/^\/public\//, '') : firstPath;
+    }
+  } catch (err) {
+    console.warn('Dynamic resume lookup fallback:', err);
+  }
+  return 'resume/Dharun-Resume.pdf';
+};
+
+const resolvedResumeUrl = getDynamicResumeUrl();
+
 export const personalInfo = {
   name: "DHARUN ANANTH S",
   shortName: "Dharun",
@@ -15,12 +32,13 @@ export const personalInfo = {
   cgpa: "7.863",
   degree: "Bachelor of Engineering in Computer Science",
   degreePeriod: "Aug 2023 – Present",
+  resumeUrl: resolvedResumeUrl,
   socials: {
     github: "https://github.com/deryx002",
     linkedin: "https://www.linkedin.com/in/dharunananths",
     email: "mailto:dharunananth002@gmail.com",
     instagram: "https://www.instagram.com/",
-    resume: "assets/files/Dharun-Resume.pdf"
+    resume: resolvedResumeUrl
   }
 };
 

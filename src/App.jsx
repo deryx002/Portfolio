@@ -8,7 +8,6 @@ import Hero from './sections/Hero';
 import About from './sections/About';
 import Skills from './sections/Skills';
 import Projects from './sections/Projects';
-import AISection from './sections/AISection';
 import Experience from './sections/Experience';
 import Achievements from './sections/Achievements';
 import Education from './sections/Education';
@@ -48,7 +47,6 @@ export default function App() {
             <About personalInfo={personalInfo} />
             <Skills skills={skills} />
             <Projects projects={projects} />
-            <AISection />
             <Experience experiences={experiences} />
             <Achievements achievements={achievements} />
             <Education education={education} certificates={certificates} />
