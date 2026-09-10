@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap URL
+Sitemap: https://deryx002.github.io/Portfolio/sitemap.xml
