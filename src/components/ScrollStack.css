@@ -50,13 +50,15 @@
 @media (max-width: 767px) {
   .scroll-stack-card-wrapper {
     position: sticky;
-    top: 76px;
-    margin-bottom: 20px !important;
-    z-index: 10;
+    top: calc(68px + var(--stack-index, 0) * 16px);
+    margin-bottom: 40px !important;
   }
   .scroll-stack-card {
     transform: none !important;
     will-change: auto !important;
     filter: none !important;
+    box-shadow: 0 -8px 25px -4px rgba(0, 0, 0, 0.3);
+    border-radius: 1.25rem;
+    overflow: hidden;
   }
 }

@@ -222,7 +222,7 @@ export default function Projects({ projects }) {
 
         <ScrollStack useWindowScroll={true}>
           {projects.map((project, index) => (
-            <ScrollStackItem key={project.id || project.title}>
+            <ScrollStackItem key={project.id || project.title} index={index}>
               <ProjectCard 
                 project={project} 
                 index={index} 
