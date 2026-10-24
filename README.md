@@ -1,5 +1,13 @@
 # Dharun Ananth S — Portfolio
 
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![GSAP](https://img.shields.io/badge/GSAP-3-88CE02?logo=greensock&logoColor=black)](https://greensock.com/gsap/)
+[![Three.js](https://img.shields.io/badge/Three.js-WebGL-black?logo=three.js&logoColor=white)](https://threejs.org/)
+[![GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?logo=github-actions&logoColor=white)](https://github.com/deryx002/Portfolio/actions)
+[![Deploy](https://img.shields.io/badge/Deploy-GitHub_Pages-222222?logo=githubpages&logoColor=white)](https://deryx002.github.io/Portfolio/)
+
 Personal portfolio website showcasing software projects, technical skills, internships, and engineering education.
 
 **Live Site:** https://deryx002.github.io/Portfolio/
@@ -70,3 +78,11 @@ Compiles the production-ready assets into the `dist/` directory.
 ## Deployment
 
 The repository uses **GitHub Actions** (`.github/workflows/deploy.yml`) to automatically build and deploy the website to GitHub Pages on every commit pushed to the `main` branch.
+
+---
+
+## Acknowledgements & Credits
+
+- [React Bits](https://reactbits.dev/) — For interactive UI animation components (including Cubes, Border Glow, and Logo Loop).
+- [GSAP (GreenSock)](https://greensock.com/) — High-performance animation engine.
+- [Lenis](https://lenis.darkroom.engineering/) — Smooth scroll library.
