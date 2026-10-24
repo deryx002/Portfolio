@@ -15,8 +15,10 @@ export default function Footer({ personalInfo }) {
           <div className="font-heading font-black text-2xl tracking-widest text-[var(--color-text)]">
             DHARUN
           </div>
-          <div className="font-mono text-xs text-[var(--color-muted)]">
-            © {new Date().getFullYear()} All rights reserved.
+          <div className="font-mono text-xs text-[var(--color-muted)] flex flex-wrap items-center justify-center md:justify-start gap-x-3 gap-y-1">
+            <span>© {new Date().getFullYear()} All rights reserved.</span>
+            <span className="hidden sm:inline text-black/20">•</span>
+            <span>Last Updated: February 2026</span>
           </div>
         </div>
 

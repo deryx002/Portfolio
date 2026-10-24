@@ -5,17 +5,12 @@ import gstPro from '../assets/images/Project/gst_pro.png';
 
 // Dynamically discover any resume file uploaded into public/resume/ regardless of filename
 const getDynamicResumeUrl = () => {
-  try {
-    const resumeModules = import.meta.glob('/public/resume/*', { eager: true, query: '?url', import: 'default' });
-    const paths = Object.values(resumeModules);
-    if (paths.length > 0 && paths[0]) {
-      const firstPath = paths[0];
-      return typeof firstPath === 'string' ? firstPath.replace(/^\/public\//, '') : firstPath;
-    }
-  } catch (err) {
-    console.warn('Dynamic resume lookup fallback:', err);
+  if (typeof __DETECTED_RESUME_URL__ !== 'undefined' && __DETECTED_RESUME_URL__) {
+    return __DETECTED_RESUME_URL__;
   }
-  return 'resume/Dharun-Resume.pdf';
+  const base = import.meta.env.BASE_URL || '/';
+  const cleanBase = base.endsWith('/') ? base : `${base}/`;
+  return `${cleanBase}resume/Dharun-Resume.pdf`;
 };
 
 const resolvedResumeUrl = getDynamicResumeUrl();

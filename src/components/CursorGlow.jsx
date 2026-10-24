@@ -22,8 +22,7 @@ export default function CursorGlow() {
       currentX += (mouseX - currentX) * 0.08;
       currentY += (mouseY - currentY) * 0.08;
 
-      glow.style.left = `${currentX - 300}px`;
-      glow.style.top = `${currentY - 300}px`;
+      glow.style.transform = `translate3d(${currentX - 300}px, ${currentY - 300}px, 0)`;
       animationId = requestAnimationFrame(animate);
     };
 
@@ -47,7 +46,10 @@ export default function CursorGlow() {
         borderRadius: '50%',
         zIndex: 50,
         mixBlendMode: 'multiply',
-        willChange: 'left, top',
+        top: 0,
+        left: 0,
+        transform: 'translate3d(-1000px, -1000px, 0)',
+        willChange: 'transform',
       }}
     />
   );

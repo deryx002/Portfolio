@@ -29,7 +29,7 @@ export default function SmoothScroll({ children }) {
     };
 
     gsap.ticker.add(updateGSAP);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(500, 33);
 
     return () => {
       gsap.ticker.remove(updateGSAP);

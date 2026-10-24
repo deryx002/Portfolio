@@ -62,7 +62,7 @@ export default function Hero({ personalInfo }) {
       className="relative min-h-screen flex items-center justify-center pt-20 sm:pt-24 overflow-hidden bg-[var(--color-bg)]"
     >
       {/* Animated Mesh Gradient Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ contain: 'paint' }}>
         {/* Base animated gradient */}
         <div className="hero-gradient-bg absolute inset-0" />
         
@@ -75,7 +75,11 @@ export default function Hero({ personalInfo }) {
           }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-[-15%] right-[-10%] w-[50%] h-[50%] rounded-full blur-[100px] opacity-40"
-          style={{ background: 'radial-gradient(circle, #7FAF8D, transparent)' }}
+          style={{ 
+            background: 'radial-gradient(circle, #7FAF8D, transparent)',
+            willChange: 'transform',
+            transform: 'translateZ(0)'
+          }}
         />
         <motion.div 
           animate={{ 
@@ -85,7 +89,11 @@ export default function Hero({ personalInfo }) {
           }}
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 3 }}
           className="absolute bottom-[-10%] left-[-15%] w-[45%] h-[45%] rounded-full blur-[100px] opacity-30"
-          style={{ background: 'radial-gradient(circle, #3F6F52, transparent)' }}
+          style={{ 
+            background: 'radial-gradient(circle, #3F6F52, transparent)',
+            willChange: 'transform',
+            transform: 'translateZ(0)'
+          }}
         />
         <motion.div 
           animate={{ 
@@ -95,7 +103,11 @@ export default function Hero({ personalInfo }) {
           }}
           transition={{ duration: 26, repeat: Infinity, ease: "easeInOut", delay: 6 }}
           className="absolute top-[30%] left-[40%] w-[35%] h-[35%] rounded-full blur-[120px] opacity-20"
-          style={{ background: 'radial-gradient(circle, #E7E7E5, transparent)' }}
+          style={{ 
+            background: 'radial-gradient(circle, #E7E7E5, transparent)',
+            willChange: 'transform',
+            transform: 'translateZ(0)'
+          }}
         />
       </div>
 

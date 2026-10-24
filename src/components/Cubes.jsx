@@ -28,6 +28,14 @@ const Cubes = ({
   const simPosRef = useRef({ x: 0, y: 0 });
   const simTargetRef = useRef({ x: 0, y: 0 });
   const simRAFRef = useRef(null);
+  const cubesRef = useRef(null);
+
+  const getCubes = useCallback(() => {
+    if (!cubesRef.current && sceneRef.current) {
+      cubesRef.current = Array.from(sceneRef.current.querySelectorAll('.cube'));
+    }
+    return cubesRef.current || [];
+  }, []);
 
   const numCols = gridCols || (typeof gridSize === 'number' ? gridSize : 6);
   const numRows = gridRows || (typeof gridSize === 'number' ? gridSize + (extraRows || 0) : numCols);
@@ -41,7 +49,8 @@ const Cubes = ({
   const tiltAt = useCallback(
     (rowCenter, colCenter) => {
       if (!sceneRef.current) return;
-      sceneRef.current.querySelectorAll('.cube').forEach(cube => {
+      const cubes = getCubes();
+      cubes.forEach(cube => {
         const r = +cube.dataset.row;
         const c = +cube.dataset.col;
         const dist = Math.hypot(r - rowCenter, c - colCenter);
@@ -66,7 +75,7 @@ const Cubes = ({
         }
       });
     },
-    [radius, maxAngle, enterDur, leaveDur, easing]
+    [radius, maxAngle, enterDur, leaveDur, easing, getCubes]
   );
 
   const onPointerMove = useCallback(
@@ -92,7 +101,7 @@ const Cubes = ({
 
   const resetAll = useCallback(() => {
     if (!sceneRef.current) return;
-    sceneRef.current.querySelectorAll('.cube').forEach(cube =>
+    getCubes().forEach(cube =>
       gsap.to(cube, {
         duration: leaveDur,
         rotateX: 0,
@@ -100,7 +109,7 @@ const Cubes = ({
         ease: 'power3.out'
       })
     );
-  }, [leaveDur]);
+  }, [leaveDur, getCubes]);
 
   const onTouchMove = useCallback(
     e => {
@@ -192,6 +201,13 @@ const Cubes = ({
 
   useEffect(() => {
     if (!autoAnimate || !sceneRef.current) return;
+
+    let isVisible = true;
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+    }, { threshold: 0.05 });
+    if (sceneRef.current) observer.observe(sceneRef.current);
+
     simPosRef.current = {
       x: Math.random() * numCols,
       y: Math.random() * numRows
@@ -202,7 +218,7 @@ const Cubes = ({
     };
     const speed = 0.02;
     const loop = () => {
-      if (!userActiveRef.current) {
+      if (isVisible && !userActiveRef.current) {
         const pos = simPosRef.current;
         const tgt = simTargetRef.current;
         pos.x += (tgt.x - pos.x) * speed;
@@ -219,6 +235,7 @@ const Cubes = ({
     };
     simRAFRef.current = requestAnimationFrame(loop);
     return () => {
+      observer.disconnect();
       if (simRAFRef.current != null) {
         cancelAnimationFrame(simRAFRef.current);
       }
