@@ -28,26 +28,28 @@ export default function Footer({ personalInfo }) {
             <span>© {new Date().getFullYear()} All rights reserved.</span>
             <span className="hidden sm:inline text-black/20">•</span>
             <span>Last Updated: February 2026</span>
-            {visitorCount !== null && (
-              <>
-                <span className="hidden sm:inline text-black/20">•</span>
-                <span className="inline-flex items-center gap-1.5 text-[var(--color-accent-dark)] font-medium">
-                  <Users className="w-3.5 h-3.5" />
-                  {visitorCount.toLocaleString()} Unique Visitors
-                </span>
-              </>
-            )}
           </div>
         </div>
 
-        <MagneticButton>
-          <button 
-            onClick={scrollToTop}
-            className="w-12 h-12 rounded-full bg-[var(--color-card)] border border-black/5 flex items-center justify-center text-[var(--color-text)] hover:bg-[var(--color-accent-dark)] hover:text-white transition-all shadow-sm"
-          >
-            <ArrowUp className="w-5 h-5" />
-          </button>
-        </MagneticButton>
+        {/* Right End: Visitors Counter + Scroll to Top */}
+        <div className="flex items-center gap-4">
+          {visitorCount !== null && (
+            <div className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--color-accent-dark)] bg-black/5 px-3 py-2 rounded-full border border-black/5">
+              <Users className="w-3.5 h-3.5" />
+              <span>{visitorCount.toLocaleString()} Visitors</span>
+            </div>
+          )}
+
+          <MagneticButton>
+            <button 
+              onClick={scrollToTop}
+              className="w-12 h-12 rounded-full bg-[var(--color-card)] border border-black/5 flex items-center justify-center text-[var(--color-text)] hover:bg-[var(--color-accent-dark)] hover:text-white transition-all shadow-sm"
+              aria-label="Scroll to top"
+            >
+              <ArrowUp className="w-5 h-5" />
+            </button>
+          </MagneticButton>
+        </div>
         
       </div>
     </footer>
