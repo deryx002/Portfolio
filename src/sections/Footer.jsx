@@ -1,8 +1,17 @@
-import React from 'react';
-import { ArrowUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowUp, Users } from 'lucide-react';
 import MagneticButton from '../components/MagneticButton';
+import { initVisitorTracking } from '../utils/visitorTracker';
 
 export default function Footer({ personalInfo }) {
+  const [visitorCount, setVisitorCount] = useState(null);
+
+  useEffect(() => {
+    initVisitorTracking().then((count) => {
+      if (typeof count === 'number') setVisitorCount(count);
+    });
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -19,6 +28,15 @@ export default function Footer({ personalInfo }) {
             <span>© {new Date().getFullYear()} All rights reserved.</span>
             <span className="hidden sm:inline text-black/20">•</span>
             <span>Last Updated: February 2026</span>
+            {visitorCount !== null && (
+              <>
+                <span className="hidden sm:inline text-black/20">•</span>
+                <span className="inline-flex items-center gap-1.5 text-[var(--color-accent-dark)] font-medium">
+                  <Users className="w-3.5 h-3.5" />
+                  {visitorCount.toLocaleString()} Unique Visitors
+                </span>
+              </>
+            )}
           </div>
         </div>
 
