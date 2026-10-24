@@ -1,75 +1,72 @@
-# 🌐 Personal Portfolio Website
+# Dharun Ananth S — Portfolio
 
-![HTML](https://img.shields.io/badge/HTML-5-orange?logo=html5)
-![CSS](https://img.shields.io/badge/CSS-3-blue?logo=css3)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?logo=javascript)
-![Status](https://img.shields.io/badge/Status-Live-success)
-![Deployment](https://img.shields.io/badge/Deploy-GitHub_Pages-black)
+Personal portfolio website showcasing software projects, technical skills, internships, and engineering education.
 
-A responsive and modern **personal portfolio website** built using **HTML, CSS, and JavaScript**.  
-Showcase your projects, skills, and contact information in a clean and professional way.
+**Live Site:** https://deryx002.github.io/Portfolio/
 
 ---
 
-## 🌍 Live Website
+## Sections
 
-🔗 https://deryx002.github.io/Portfolio/
-
----
-
-## 🚀 Features
-
-- ✨ Responsive design (mobile-friendly)
-- 🎨 Clean and modern UI
-- 📂 Project showcase section
-- 🧑 About me section
-- 📞 Contact section
-- ⚡ Fast and lightweight (no frameworks)
-
----
-
-## 🛠️ Tech Stack
-
-- 🧱 HTML5  
-- 🎨 CSS3  
-- ⚙️ JavaScript (Vanilla JS)
+- **Hero:** Dynamic introduction featuring a typewriter role cycler, stroke text animations, ambient GPU-accelerated background gradients, and magnetic buttons.
+- **About:** Background summary, engineering education at Sri Ramakrishna Institute of Technology, and core technical interests.
+- **Skills:** Categorized technical toolkit (Languages, Frontend, Backend, Databases, Tools) with 3D tilt interaction, border glow highlights, logo loop ticker, and desktop 3D cube accents.
+- **Projects:** Featured applications with tech tags, project descriptions, GitHub links, and detail modals:
+  - *Interactive 3D Portfolio* (React, Three.js, GSAP, WebGL, Tailwind CSS)
+  - *Bus Tracking System* (React, Node.js, REST APIs, Map SDK)
+  - *AI Sales Analytics Agent* (Python, Machine Learning, NLP, Data Analytics, React)
+  - *GST Billing System for Garments* (Python, SQL, Full Stack ERP)
+- **Work Experience:** Industry internship history, roles, responsibilities, and key takeaways (Data Science Intern at LitzTec).
+- **Achievements & Certifications:** Delivered milestones, academic metrics, and credentials from AWS, NPTEL, and Scaler.
+- **Education:** B.E. in Computer Science & Engineering curriculum highlights and coursework.
+- **Contact:** Interactive contact form integrated with EmailJS, direct contact channels (Email, Phone, Location), and social links (GitHub, LinkedIn).
+- **Resume:** Dynamic resume download configured to automatically serve the latest document uploaded to the resume directory.
 
 ---
 
-## 📸 Preview
+## Tech Stack
 
-![Portfolio Preview](https://via.placeholder.com/800x400?text=Portfolio+Preview)
+- **Frontend:** React 18, Tailwind CSS, Lucide React
+- **Animations & 3D:** GSAP, Framer Motion, Lenis (Smooth Scroll), WebGL, Three.js
+- **Form Handling:** EmailJS
+- **Bundler & Tooling:** Vite, PostCSS, Autoprefixer
+- **CI/CD & Hosting:** GitHub Actions, GitHub Pages
 
 ---
 
-## ⚙️ Setup, Deployment & Usage
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher recommended)
+- npm
+
+### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/portfolio.git
-cd portfolio
+git clone https://github.com/deryx002/Portfolio.git
+cd Portfolio
+npm install
+```
 
-# Open locally
-# Just open index.html in your browser
+### Development
 
-# Make changes
-# Edit index.html, style.css, script.js
+```bash
+npm run dev
+```
 
-# Push changes to GitHub
-git add .
-git commit -m "Update portfolio"
-git push origin main
+Runs the local development server at `http://localhost:3000`.
 
-# Deploy using GitHub Pages
-# Go to: GitHub → Your Repository → Settings → Pages
-# Under "Source":
-#   Branch: main
-#   Folder: /root
-# Click Save
+### Production Build
 
-# Your live site:
-https://your-username.github.io/portfolio/
+```bash
+npm run build
+```
 
-# NOTE:
-# This project is already deployed here:
-https://deryx002.github.io/Portfolio/
+Compiles the production-ready assets into the `dist/` directory.
+
+---
+
+## Deployment
+
+The repository uses **GitHub Actions** (`.github/workflows/deploy.yml`) to automatically build and deploy the website to GitHub Pages on every commit pushed to the `main` branch.
